@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import logo from "./logo.svg";
+import useToggle from './useToggle'
 import "./App.css";
 
 function App() {
-
+  const [isVisible, toggleVisible]=useToggle();
   var [count, setCount] = useState(0);
   var [flag, setFlag] = useState(false);
 
@@ -38,7 +38,10 @@ function App() {
         <p>Please open console to check useEffect outcome!</p>
         <p>Count: {count}</p>
         <p>Flag: {""+flag}</p>
+        <p>Custom Toggler Flag: {""+isVisible}</p>
         <button onClick={inceaseCount}>Increment</button>
+        <br/>
+        <button onClick={toggleVisible}>Toggle Flag from Custom Hooks</button>
         <br/>
         <button onClick={()=>{ 
           var flagValue= !flag;
@@ -48,5 +51,7 @@ function App() {
     </div>
   );
 }
+
+
 
 export default App;
