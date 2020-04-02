@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import CustomToggleComponent from "./CustomToggleComponent";
 import "./App.css";
 
@@ -15,7 +15,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log("This is will run only after the value of Flag changes! Micro-managing component should update and component will mount!");
+    console.log("This is will run only after the value of Primary Flag changes! Micro-managing component should update and component will mount!");
   }, [flag]);
 
   useEffect(() => {
@@ -24,14 +24,19 @@ function App() {
     };
   });
 
-  function inceaseCount() {
+  const inceaseCount=()=> {
     setCount(count + 1);
   }
 
+  const toggleFlag =useCallback(()=>{
+    console.log("Method is cached so shallow comparison is prevented. The component doesnt re-render because the method doesnt get created!")
+    setFlag(!flag);
+  },[flag]);
+
   const memoisedComponent = useMemo(() => {
     console.log("This is equivalent of componentShouldUpdate but an advanced version of it.")
-    return <CustomToggleComponent />;
-  }, []);
+    return <CustomToggleComponent toggleFlag={toggleFlag}/>;
+  }, [toggleFlag]);
 
   return (
     <div className="App">
@@ -39,19 +44,14 @@ function App() {
         <p>Learning React Hooks</p>
         <p>Please open console to check useEffect outcome!</p>
         <p>Count: {count}</p>
-        <p>Flag: {"" + flag}</p>
+        <p>Primary Flag: {"" + flag}</p>
 
         <button onClick={inceaseCount}>Increment</button>
         <br />
         {memoisedComponent}
         <br />
-        <button
-          onClick={() => {
-            var flagValue = !flag;
-            setFlag(flagValue);
-          }}
-        >
-          Toggle Flag
+        <button onClick={toggleFlag }>
+          Toggle Primary Flag
         </button>
       </header>
     </div>

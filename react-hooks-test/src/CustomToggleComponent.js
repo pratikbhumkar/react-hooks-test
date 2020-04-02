@@ -9,13 +9,15 @@ const useToggle = (defaultState = false) => {
   return [state, flipState];
 };
 
-function CustomToggleComponent() {
-  console.log("This is re-rendering");
+function CustomToggleComponent(props) {
+  console.log("CustomToggleComponent is re-rendering");
   const [isVisible, toggleVisible] = useToggle();
   return (
     <React.Fragment>
       <p>Custom Toggler Flag: {"" + isVisible}</p>
-      <button onClick={toggleVisible}>Toggle Flag from Custom Hooks</button>
+      <button onClick={toggleVisible}>Toggle Custom Flag from Custom Hooks</button>
+      <br />
+      <button onClick={props.toggleFlag}>Toggle Primary Flag from Custom Hooks Passed on method</button>
     </React.Fragment>
   );
 }
